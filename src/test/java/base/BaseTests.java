@@ -9,6 +9,8 @@ import pages.CheckBoxesPage;
 import pages.FormPage;
 import pages.HomePage;
 
+import java.util.concurrent.TimeUnit;
+
 public class BaseTests {
     private WebDriver driver;
     protected HomePage homePage;
@@ -19,6 +21,8 @@ public class BaseTests {
         System.setProperty("webdriver.chrome.driver","resources/chromedriver.exe");
         driver = new ChromeDriver();
         //driver.get("https://formy-project.herokuapp.com/form");
+        //driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        //driver.manage().timeouts().pageLoadTimeout(30,TimeUnit.SECONDS);
 
         goHome();
 
