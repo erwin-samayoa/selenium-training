@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import pages.CheckBoxesPage;
 import pages.FormPage;
 import pages.HomePage;
+import utils.WindowManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,5 +42,10 @@ public class BaseTests {
     @AfterClass
     public void tearDown() {
         driver.quit();
+    }
+
+    public WindowManager getWindowManager() {
+        return new WindowManager(driver);
+
     }
 }
