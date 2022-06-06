@@ -8,7 +8,7 @@ import pages.HorizontalSlider;
 import static org.testng.Assert.assertEquals;
 
 
-public class KeysTest extends BaseTests {
+public class KeysTests extends BaseTests {
     @Test
     public void testBackspace() {
         var keyPage = homePage.clickKeyPressesPage();
