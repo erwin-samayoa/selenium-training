@@ -80,7 +80,7 @@ public class BaseTests {
 
     private ChromeOptions getChromeOptions() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("disable-infobars"); //This is no longer supported
+        options.addArguments("disable-infobars"); //This is no longer supported there is another way
         options.addArguments("start-maximized");
         //options.setHeadless(true);
         return options;
