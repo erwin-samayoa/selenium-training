@@ -1,10 +1,12 @@
 package base;
 
 import com.google.common.io.Files;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
@@ -28,16 +30,17 @@ public class BaseTests {
     @BeforeClass
     public void SetUp() {
         System.setProperty("webdriver.chrome.driver","resources/chromedriver.exe");
-        //driver = new ChromeDriver();
-        driver = new EventFiringWebDriver(new ChromeDriver()); //Deprecated
-        driver.register(new EventReporter());
+        //driver = new ChromeDriver(getChromeOptions());
+        driver = new EventFiringWebDriver(new ChromeDriver(getChromeOptions())); //Deprecated
+        //driver.register(new EventReporter());
         //driver.get("https://formy-project.herokuapp.com/form");
         //driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         //driver.manage().timeouts().pageLoadTimeout(30,TimeUnit.SECONDS);
 
         goHome();
+        setCookie();
 
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize(); //moved to options
 
         homePage = new HomePage(driver);
         formPage = new FormPage(driver);
@@ -73,5 +76,20 @@ public class BaseTests {
             System.out.println("Screenshot taken " + screenshot.getAbsolutePath());
         }
 
+    }
+
+    private ChromeOptions getChromeOptions() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("disable-infobars"); //This is no longer supported there is another way
+        options.addArguments("start-maximized");
+        //options.setHeadless(true);
+        return options;
+    }
+
+    private void setCookie() {
+        Cookie cookie = new Cookie.Builder("tau","123")
+                .domain("the-internet.herokuapp.com")
+                .build();
+        driver.manage().addCookie(cookie);
     }
 }
