@@ -9,10 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.*;
 import pages.FormPage;
 import pages.HomePage;
 import utils.EventReporter;
@@ -27,12 +24,14 @@ public class BaseTests {
     protected HomePage homePage;
     protected FormPage formPage;
 
-    @BeforeClass
+    @BeforeSuite
     public void SetUp() {
-        System.setProperty("webdriver.chrome.driver","resources/chromedriver.exe");
-        //driver = new ChromeDriver(getChromeOptions());
-        driver = new EventFiringWebDriver(new ChromeDriver(getChromeOptions())); //Deprecated
-        //driver.register(new EventReporter());
+
+        System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
+        //driver = new ChromeDriver();
+        driver = new EventFiringWebDriver(new ChromeDriver()); //Deprecated
+        driver.register(new EventReporter());
+
         //driver.get("https://formy-project.herokuapp.com/form");
         //driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         //driver.manage().timeouts().pageLoadTimeout(30,TimeUnit.SECONDS);
@@ -47,12 +46,12 @@ public class BaseTests {
 
     }
 
-    @BeforeMethod
+    @BeforeTest
     public void goHome() {
         driver.get("https://the-internet.herokuapp.com/");
     }
 
-    @AfterClass
+    @AfterTest
     public void tearDown() {
         driver.quit();
     }
@@ -69,7 +68,7 @@ public class BaseTests {
             File screenshot = camera.getScreenshotAs(OutputType.FILE);
             try {
                 //de google es esta clase
-                Files.move(screenshot,new File("resources/screenshots/" + result.getName() + ".png"));
+                Files.move(screenshot,new File("/screenshots/" + result.getName() + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -13,6 +13,10 @@ public class FormPage {
         this.driver = driver;
     }
 
+    public void load() {
+        driver.get("https://formy-project.herokuapp.com/form");
+    }
+
     public By locateFieldById(String id) {
         return By.id(id);
     }
