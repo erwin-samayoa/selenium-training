@@ -6,7 +6,8 @@ Feature: Register Functionality
 
   Scenario: Register
     Given I am in the register page of the site
-    When I enter male register data
+    When I enter register data
+    |Juano|Male|
     And I click submit button
     Then I should be taken to the successful page
 

@@ -1,10 +1,16 @@
 import base.BaseTests;
 import forms.FillFormsTest;
+import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.ThanksPage;
+
+import java.util.List;
+import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
 
@@ -12,9 +18,13 @@ public class Steps extends BaseTests {
 
     protected ThanksPage thanksPage;
 
+    @Before
+    public void initialize() {
+        SetUp();
+    }
+
     @Given("I am in the register page of the site")
     public void iAmInTheRegisterPageOfTheSite() {
-        SetUp();
         formPage.load();
     }
 
@@ -25,13 +35,18 @@ public class Steps extends BaseTests {
         assertEquals(thanksPage.getResultText(),"The form was successfully submitted!","Error while submitting form");
     }
 
-    @When("I enter male register data")
-    public void iEnterMaleRegisterData() {
-        formPage.setFirstName("Juan");
+    @When("I enter register data")
+    public void iEnterMaleRegisterData(DataTable table) {
+        List<List<String>> data = table.asLists();
+        formPage.setFirstName(data.get(0).get(0));
         formPage.setLastName("López");
         formPage.setJobTitle("Lic.");
         formPage.setEducationLevel(2);
-        formPage.setSex(1);
+        if (data.get(0).get(1).equals("Male")) {
+            formPage.setSex(1);
+        } else {
+            formPage.setSex(2);
+        }
         formPage.setYearsOfExperience(3);
         formPage.setDate("01/01/2000");
     }
@@ -54,5 +69,10 @@ public class Steps extends BaseTests {
     @And("I click submit button")
     public void iClickSubmitButton() {
         thanksPage = formPage.clickSubmitButton();
+    }
+
+    @After
+    public void closeAll() {
+        tearDown();
     }
 }
